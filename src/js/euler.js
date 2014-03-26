@@ -1,7 +1,7 @@
 //var mathjs = require('mathjs');
 //var math = mathjs();
 
-function FindMultipliesBelow(max, number1, number2) {
+function findMultipliesBelow(max, number1, number2) {
     var multiplies = [];
     var index = 0;
     var n1 = number1;
@@ -30,10 +30,11 @@ function FindMultipliesBelow(max, number1, number2) {
 	return multiplies;
 }
 
-function IsCommonMultiply(multiply, number1, number2) {
+function isCommonMultiply(multiply, number1, number2) {
     return (multiply > number1) && (multiply > number2) && (multiply % number1 == 0) && (multiply % number2 == 0);
 }
 /**
+p1
 var multiplies= FindMultipliesBelow(1000, 3, 5);
 var result = 0;
 for (var i in multiplies) {
@@ -42,7 +43,7 @@ for (var i in multiplies) {
 }
 console.log(result);
 **/
-function BuildFibonacci(position) {
+function buildFibonacci(position) {
     var fibonacci = [];
     fibonacci[0] = 1;
     fibonacci[1] = 1;
@@ -59,7 +60,7 @@ var index = 2;
 var fibo = [];
 fibo[0] = 1;
 fibo[1] = 1;
-function NextFiboNumber() {
+function nextFiboNumber() {
     fibo[index] = fibo[index - 1] + fibo[index - 2];
     var result = fibo[index];
     index++;
@@ -68,10 +69,52 @@ function NextFiboNumber() {
 
 var next;
 var result = 0;
-while ((next = NextFiboNumber()) < 4000000) {
-    console.log(next);
+while ((next = nextFiboNumber()) < 4000000) {
     if (next % 2 == 0) {
         result += next;
     }
 }
-console.log("sum of the even fibonacci numbers: " + result);
+//p2 console.log("sum of the even fibonacci numbers: " + result);
+
+function findFactorsOf(number) {
+    var factors = [];
+    var index = 0;
+    var sqrt = Math.floor(Math.sqrt(number));
+    for (var i = 1; i <= sqrt; i++) {
+        if (number % i == 0) {
+            factors[index++] = i;
+            var theOther = number / i;
+            if (theOther != i) {
+                factors[index++] = theOther;
+            }
+        }
+    }
+    return factors;
+}
+
+function isPrime(number) {
+    if (number == 1) {
+        return false;
+    }
+    var sqrt = Math.sqrt(number);
+    for (var i = 2; i <= sqrt; i++) {
+        if (number % i == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+var f = findFactorsOf(600851475143);
+var primes = [];
+var index = 0;
+for (var i in f) {
+    console.log(f[i]);
+    if (isPrime(f[i])) {
+        primes[index++] = f[i];
+    }
+}
+console.log("primes");
+for (var i in primes) {
+    console.log(primes[i]);
+}
