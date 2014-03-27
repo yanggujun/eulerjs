@@ -1,6 +1,8 @@
 //var mathjs = require('mathjs');
 //var math = mathjs();
 
+exports.findMultipliesBelow = findMultipliesBelow;
+
 function findMultipliesBelow(max, number1, number2) {
     var multiplies = [];
     var index = 0;
@@ -14,7 +16,7 @@ function findMultipliesBelow(max, number1, number2) {
 		var r1 = n1 * i;
         var r2 = n2 * i; 
 
-		if (r1 < max && !IsCommonMultiply(r1, n1, n2)) {
+		if (r1 < max && !isCommonMultiply(r1, n1, n2)) {
 		    multiplies[index] = r1;
             index++;
 		}
@@ -30,19 +32,12 @@ function findMultipliesBelow(max, number1, number2) {
 	return multiplies;
 }
 
+exports.isCommonMultiply = isCommonMultiply;
 function isCommonMultiply(multiply, number1, number2) {
     return (multiply > number1) && (multiply > number2) && (multiply % number1 == 0) && (multiply % number2 == 0);
 }
-/**
-p1
-var multiplies= FindMultipliesBelow(1000, 3, 5);
-var result = 0;
-for (var i in multiplies) {
-    console.log(multiplies[i]);
-    result += multiplies[i];
-}
-console.log(result);
-**/
+
+exports.buildFibonacci = buildFibonacci;
 function buildFibonacci(position) {
     var fibonacci = [];
     fibonacci[0] = 1;
@@ -56,26 +51,27 @@ function buildFibonacci(position) {
     return fibonacci;
 }
 
-var index = 2;
-var fibo = [];
-fibo[0] = 1;
-fibo[1] = 1;
-function nextFiboNumber() {
-    fibo[index] = fibo[index - 1] + fibo[index - 2];
-    var result = fibo[index];
-    index++;
-    return result;
-}
-
-var next;
-var result = 0;
-while ((next = nextFiboNumber()) < 4000000) {
-    if (next % 2 == 0) {
-        result += next;
+exports.buildFiboSequenceLessThan = buildFiboSequenceLessThan;
+function buildFiboSequenceLessThan(n) {
+    var index = 2;
+    var fibo = [];
+    fibo[0] = 1;
+    fibo[1] = 1;
+    var current = fibo[1];
+    while ((current = fibo[index - 1] + fibo[index - 2]) < n) {
+        fibo[index] = current;
+        index++;
     }
+    return fibo;
 }
-//p2 console.log("sum of the even fibonacci numbers: " + result);
 
+exports.isEven = isEven;
+function isEven(n) {
+    return n % 2 == 0;
+}
+
+
+exports.findFactorsOf = findFactorsOf;
 function findFactorsOf(number) {
     var factors = [];
     var index = 0;
@@ -92,29 +88,35 @@ function findFactorsOf(number) {
     return factors;
 }
 
-function isPrime(number) {
-    if (number == 1) {
+exports.isPrime = isPrime;
+function isPrime(n) {
+    if (n == 1) {
         return false;
     }
-    var sqrt = Math.sqrt(number);
+    var sqrt = Math.sqrt(n);
     for (var i = 2; i <= sqrt; i++) {
-        if (number % i == 0) {
+        if (n % i == 0) {
             return false;
         }
     }
     return true;
 }
 
-var f = findFactorsOf(600851475143);
-var primes = [];
-var index = 0;
-for (var i in f) {
-    console.log(f[i]);
-    if (isPrime(f[i])) {
-        primes[index++] = f[i];
+exports.findLargestPrimeFactorOf = findLargestPrimeFactorOf;
+function findLargestPrimeFactorOf(n) {
+    var f = findFactorsOf(n);
+    var primes = [];
+    var index = 0;
+    for (var i in f) {
+        if (isPrime(f[i])) {
+            primes[index++] = f[i];
+        }
     }
+
+    var largestPrime = Math.max.apply(Math, primes);
+    return largestPrime;
 }
-console.log("primes");
-for (var i in primes) {
-    console.log(primes[i]);
+
+exports.isPalindrome = isPalindrome;
+function isPalindrome(n) {
 }
