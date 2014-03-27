@@ -61,4 +61,6 @@ function p3() {
  * Find the largest palindrome made from the product of two 3-digit numbers.
  **/
 function p4() {
+    console.log(euler.isPalindrome(1000001));
 }
+p4();

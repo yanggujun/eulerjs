@@ -1,5 +1,3 @@
-//var mathjs = require('mathjs');
-//var math = mathjs();
 
 exports.findMultipliesBelow = findMultipliesBelow;
 
@@ -119,4 +117,12 @@ function findLargestPrimeFactorOf(n) {
 
 exports.isPalindrome = isPalindrome;
 function isPalindrome(n) {
+    var s = "" + n;
+    var count = s.length;
+    for (var i = 0; i < count / 2; i++) {
+        if (s[i] != s[count - 1 - i]) {
+            return false;
+        }
+    }
+    return true;
 }
