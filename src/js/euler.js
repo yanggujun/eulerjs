@@ -1,8 +1,11 @@
 
-exports.findMultipliesBelow = findMultipliesBelow;
-
-function findMultipliesBelow(max, number1, number2) {
-    var multiplies = [];
+/**
+ * Finds common multiplies of number1 and number2 below number max.
+ *
+ **/
+exports.findMultiplesBelow = findMultiplesBelow;
+function findMultiplesBelow(max, number1, number2) {
+    var multiples = [];
     var index = 0;
     var n1 = number1;
     var n2 = number2;
@@ -14,12 +17,12 @@ function findMultipliesBelow(max, number1, number2) {
 		var r1 = n1 * i;
         var r2 = n2 * i; 
 
-		if (r1 < max && !isCommonMultiply(r1, n1, n2)) {
-		    multiplies[index] = r1;
+		if (r1 < max && !isCommonMultiply(r1, [n1, n2])) {
+		    multiples[index] = r1;
             index++;
 		}
         if (r2 < max) {
-            multiplies[index] = r2;
+            multiples[index] = r2;
             index++;
         }
 
@@ -27,14 +30,27 @@ function findMultipliesBelow(max, number1, number2) {
             break;
         }
 	}
-	return multiplies;
+	return multiples;
 }
 
-exports.isCommonMultiply = isCommonMultiply;
-function isCommonMultiply(multiply, number1, number2) {
-    return (multiply > number1) && (multiply > number2) && (multiply % number1 == 0) && (multiply % number2 == 0);
+/**
+ * Checks whether number multiply is the common multiply of nubmer1 and number2.
+ **/
+exports.isCommonMultiple = isCommonMultiple;
+function isCommonMultiple(multiple, array) {
+    for (var i in array) {
+        var current = array[i];
+        if (multiple % current != 0) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
+/**
+ * Builds fibonacci sequence until position.
+ **/
 exports.buildFibonacci = buildFibonacci;
 function buildFibonacci(position) {
     var fibonacci = [];
@@ -49,6 +65,9 @@ function buildFibonacci(position) {
     return fibonacci;
 }
 
+/**
+ * Builds fibonacci sequence less than number.
+ **/
 exports.buildFiboSequenceLessThan = buildFiboSequenceLessThan;
 function buildFiboSequenceLessThan(n) {
     var index = 2;
@@ -63,12 +82,17 @@ function buildFiboSequenceLessThan(n) {
     return fibo;
 }
 
+/**
+ * Whether the number n is even.
+ **/
 exports.isEven = isEven;
 function isEven(n) {
     return n % 2 == 0;
 }
 
-
+/**
+ * Finds all factors for the number.
+ **/
 exports.findFactorsOf = findFactorsOf;
 function findFactorsOf(number) {
     var factors = [];
@@ -86,6 +110,9 @@ function findFactorsOf(number) {
     return factors;
 }
 
+/**
+ * Whether the number n is prime.
+ **/
 exports.isPrime = isPrime;
 function isPrime(n) {
     if (n == 1) {
@@ -100,6 +127,77 @@ function isPrime(n) {
     return true;
 }
 
+/**
+ * Finds all prime factors of number n.
+ **/ 
+exports.findPrimeFactorsOf = findPrimeFactorsOf;
+function findPrimeFactorsOf(n) {
+    var primeFactors = [];
+    var index = 0;
+    if (!isPrime(n)) {
+        for (var i = 2; i <= n / 2; i++) {
+            if (n % i == 0 && isPrime(i)) {
+                primeFactors[index++] = i;
+            }
+        }
+    }
+    return primeFactors;
+}
+
+/**
+ * Find the least common multiple of the given array.
+ **/
+exports.findLeastCommonMultiple = findLeastCommonMultiple;
+function findLeastCommonMultiple(array) {
+    var primeFactors = [];
+    var index = 0;
+    for (var i in array) {
+        if ((array[i] != 1) && (!isPrime(array[i]))) {
+            var factors = findPrimeFactorsOf(array[i]);
+            for (var j in factors) {
+                if (!isIn(factors[j], primeFactors)) {
+                    primeFactors[index++] = factors[j];
+                }
+            }
+        }
+        else {
+            if (!isIn(array[i], primeFactors)) {
+                primeFactors[index++] = array[i];
+            }
+        }
+    }
+
+    var multiple = 1;
+    for (var i in primeFactors) {
+        multiple *= primeFactors[i];
+    }
+
+    var result = 0;
+    outer:
+    for (var n = 1; ; n++) {
+        result = multiple * n;
+        if (isCommonMultiple(result, array)) {
+            break outer;
+        }
+    }
+    return result;
+}
+
+/**
+ * Checks whether the given number n is in the array.
+ **/
+exports.isIn = isIn;
+function isIn(n, array) {
+    for(var i in array) {
+        if (n == array[i]) {
+            return true;
+        }
+    }
+}
+
+/**
+ * Finds largest prime factor of number n.
+ **/
 exports.findLargestPrimeFactorOf = findLargestPrimeFactorOf;
 function findLargestPrimeFactorOf(n) {
     var f = findFactorsOf(n);
@@ -115,6 +213,9 @@ function findLargestPrimeFactorOf(n) {
     return largestPrime;
 }
 
+/**
+ * Whether the number n is a palindrome, which means a number reads the same both ways.
+ **/
 exports.isPalindrome = isPalindrome;
 function isPalindrome(n) {
     var s = "" + n;
