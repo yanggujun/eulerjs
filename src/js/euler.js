@@ -227,3 +227,12 @@ function isPalindrome(n) {
     }
     return true;
 }
+
+/**
+ * Get the triangular number at position. The position starts from 0;
+ **/
+exports.triangularNumberAt = triangularNumberAt;
+function triangularNumberAt(position) {
+    var n = position + 1;
+    return n * (n + 1) / 2;
+}
