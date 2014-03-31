@@ -238,7 +238,7 @@ function triangularNumberAt(position) {
 }
 
 /**
- * Adds the array in the array. The array is composed of a series of string. Each string represents a positive integer.
+ * Adds the numbers in the array. The array is composed of a series of string. Each string represents a natrual number.
  **/
 exports.add = add;
 function add(array) {
@@ -275,4 +275,55 @@ function add(array) {
     }
 
     return result;
+}
+
+/**
+ * Multiplies number n1 and number n2. n1 and n2 are natrual numbers in string.
+ * usage: var result = multiply("1002121211111111123123123123123121313121313131", "1242523446552462413123124523624556524");
+ **/
+exports.multiply = multiply;
+function multiply(n1, n2) {
+    var digitLut = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var start = "0";
+    var base = "";
+    var l1 = n1.length;
+    var l2 = n2.length;
+    var multiplies = [];
+    var index = 0;
+    for (var i = 0; i < l2; i++) {
+        var digit2 = digitLut[n2[l2 - 1 - i] - start];
+        var step = 0;
+        var result = "";
+        for (var j = 0; j < l1; j++) {
+            var digit = digitLut[n1[l1 - 1 - j] - start];
+            var r = digit * digit2;
+            r += step;
+            var current = r % 10; 
+            result = current + result;
+            step = (r - current) / 10;
+        }
+        while (step > 0) {
+            var current = step % 10;
+            result = current + result;
+            step -= current;
+            step /= 10;
+        }
+        result += base;
+        base += "0";
+        multiplies[index++] = result;
+    }
+    return add(multiplies);
+}
+
+/**
+ * Calculates the factorial of the given natural number.
+ **/
+exports.factorial = factorial;
+function factorial(n) {
+    var total = "1";
+    for (var i = 0; i < n; i++) {
+        var n1 = "" + (i + 1);
+        total = multiply(n1, total);
+    }
+    return total;
 }

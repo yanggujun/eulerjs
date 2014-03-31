@@ -647,8 +647,31 @@ function p14() {
     console.log(result + " with chain length: " + max);
 }
 
+/**
+ * Factorial digit sum
+ * Problem 20
+ * 
+ * n! means n ¡Á (n ? 1) ¡Á ... ¡Á 3 ¡Á 2 ¡Á 1
+ * 
+ * For example, 10! = 10 ¡Á 9 ¡Á ... ¡Á 3 ¡Á 2 ¡Á 1 = 3628800,
+ * and the sum of the digits in the number 10! is 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27.
+ * 
+ * Find the sum of the digits in the number 100!
+ **/
+function p20() {
+    var digitLut = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var result = euler.factorial(100);
+    var start = "0";
+    var sum = 0;
+    for (var i = 0; i < result.length; i++) {
+        var digit = digitLut[result[i] - start];
+        sum += digit;
+    }
+    console.log(result + " with sum of the digits: " + sum);
+}
+
 var start = new Date();
-p14();
+p20();
 var end = new Date();
 var elapsed = end - start;
 console.log("elapsed time: " + elapsed);
