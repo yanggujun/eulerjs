@@ -17,7 +17,7 @@ function findMultiplesBelow(max, number1, number2) {
 		var r1 = n1 * i;
         var r2 = n2 * i; 
 
-		if (r1 < max && !isCommonMultiply(r1, [n1, n2])) {
+		if (r1 < max && !isCommonMultiple(r1, [n1, n2])) {
 		    multiples[index] = r1;
             index++;
 		}
@@ -235,4 +235,44 @@ exports.triangularNumberAt = triangularNumberAt;
 function triangularNumberAt(position) {
     var n = position + 1;
     return n * (n + 1) / 2;
+}
+
+/**
+ * Adds the array in the array. The array is composed of a series of string. Each string represents a positive integer.
+ **/
+exports.add = add;
+function add(array) {
+    var digitLut = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var start = "0";
+    var maxLength = 0;
+    for (var i in array) {
+        maxLength = maxLength < array[i].length ? array[i].length : maxLength;
+    }
+
+    var step = 0;
+    var index = 0;
+    var result = "";
+    for (var i = 0; i < maxLength; i++) {
+        var sum = 0;
+        for (var j in array) {
+            var length = array[j].length;
+            if (length - 1 - i >= 0) {
+                var digit = array[j][length - 1 - i];
+                sum += digitLut[digit - start];
+            }
+        }
+        sum += step;
+        var current = sum % 10;
+        result = current + result;
+        step = (sum - current) / 10;
+    }
+
+    while (step > 0) {
+        var current = step % 10;
+        result = current + result;
+        step -= current;
+        step /= 10;
+    }
+
+    return result;
 }
