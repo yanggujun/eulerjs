@@ -327,3 +327,16 @@ function factorial(n) {
     }
     return total;
 }
+
+/**
+ * Power of n with exponent. n and exponent are natrual numbers.
+ **/
+exports.pow = pow;
+function pow(n, exponent) {
+    var result = "1";
+    for (var i = 0; i < exponent; i++) {
+        var number = "" + n;
+        result = multiply(result, number);
+    }
+    return result;
+}

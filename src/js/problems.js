@@ -648,6 +648,26 @@ function p14() {
 }
 
 /**
+ * Power digit sum
+ * Problem 16
+ * 
+ * 215 = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
+ * 
+ * What is the sum of the digits of the number 21000?
+ **/
+function p16() {
+    var digitLut = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var result = euler.pow(2, 1000);
+    var start = "0";
+    var sum = 0;
+    for (var i = 0; i < result.length; i++) {
+        var digit = digitLut[result[i] - start];
+        sum += digit;
+    }
+    console.log(result + " with sum of the digits: " + sum);
+}
+
+/**
  * Factorial digit sum
  * Problem 20
  * 
@@ -671,7 +691,7 @@ function p20() {
 }
 
 var start = new Date();
-p20();
+p16();
 var end = new Date();
 var elapsed = end - start;
 console.log("elapsed time: " + elapsed);
