@@ -648,6 +648,30 @@ function p14() {
 }
 
 /**
+ * Lattice paths
+ * Problem 15
+ * 
+ * Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
+ * 
+ * How many such routes are there through a 20×20 grid?
+ **/
+function p15() {
+    var path = visit2(0, 0, 20, 20);
+    console.log(path);
+}
+
+function visit2(i, j, x, y) {
+    var path = 0;
+    if (i < x && j < y) {
+        path = visit2(i + 1, j, x, y) + visit2(i, j + 1, x, y);
+    } else if (i < x || j < y){
+        path = 1;
+    }
+
+    return path;
+}
+
+/**
  * Power digit sum
  * Problem 16
  * 
@@ -665,6 +689,53 @@ function p16() {
         sum += digit;
     }
     console.log(result + " with sum of the digits: " + sum);
+}
+
+/**
+ * Number letter counts
+ * Problem 17
+ * 
+ * If the numbers 1 to 5 are written out in words: one, two, three, four, five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
+ * 
+ * If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?
+ * 
+ * NOTE: Do not count spaces or hyphens. For example, 342 (three hundred and forty-two) contains 23 letters and 115 (one hundred and fifteen) contains 20 letters. The use of "and" when writing out numbers is in compliance with British usage.
+ **/
+function p17() {
+    var letters = 0;
+    for (var i = 1; i < 1000; i++) {
+        letters += calculateLetters(i);
+    }
+    letters += "onethousand".length;
+    console.log(letters);
+}
+
+var one = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+var two = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+var ten = ["ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+var hundred = "hundred"; 
+function calculateLetters(n) {
+    var letters = 0;
+    if (n == 0) {
+        return 0;
+    } else if (n < 10) {
+        return one[n - 1].length;
+    } else if (n >= 10 && n < 20) {
+        return two[n - 10].length;
+    } else if (n >= 20 && n < 100) {
+        var n1 = n % 10;
+        var l1 = calculateLetters(n1);
+        var n2 = (n - n1) / 10;
+        var l2 = ten[n2 - 1].length;
+        return l1 + l2;
+    } else if (n >= 100 && n < 1000) {
+        var n1 = n % 100;
+        var l1 = calculateLetters(n1);
+        var n2 = (n - n1) / 100;
+        var l2 = one[n2 - 1].length + hundred.length;
+        l2 = (n1 != 0) ? (l2 + 3) : l2;
+        return l1 + l2;
+    }
 }
 
 /**
@@ -691,7 +762,7 @@ function p20() {
 }
 
 var start = new Date();
-p16();
+p17();
 var end = new Date();
 var elapsed = end - start;
 console.log("elapsed time: " + elapsed);
