@@ -10,8 +10,7 @@ var fs = require('fs');
  * Find the sum of all the multiples of 3 or 5 below 1000.
  **/
 function p1() {
-    var multiples= euler.findMultiplesBelow(1000, 3, 5);
-    var result = 0;
+    var multiples= euler.findMultiplesBelow(1000, 3, 5); var result = 0;
     for (var i in multiples) {
         result += multiples[i];
     }
@@ -803,10 +802,10 @@ function p18() {
             paths[i][j] = numbers[i][j];
         }
     }
-    visitArray(numbers, paths);
+    visitTriangleArray(numbers, paths);
 }
 
-function visitArray(unsettled, settled) {
+function visitTriangleArray(unsettled, settled) {
     for (var i = 0; i < unsettled.length - 1; i++) {
         for (var j = 0; j < unsettled[i].length; j++) {
             var n1 = settled[i][j] + unsettled[i + 1][j];
@@ -828,6 +827,56 @@ function visitArray(unsettled, settled) {
 }
 
 /**
+ * Counting Sundays
+ * Problem 19
+ * 
+ * You are given the following information, but you may prefer to do some research for yourself.
+ * 
+ *     1 Jan 1900 was a Monday.
+ *     Thirty days has September,
+ *     April, June and November.
+ *     All the rest have thirty-one,
+ *     Saving February alone,
+ *     Which has twenty-eight, rain or shine.
+ *     And on leap years, twenty-nine.
+ *     A leap year occurs on any year evenly divisible by 4, but not on a century unless it is divisible by 400.
+ * 
+ * How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to 31 Dec 2000)?
+ **/
+function p19() {
+    var start = 2;
+    var total = 0;
+    var monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    for (var i = 1901; i <= 2000; i++) {
+        for (var j = 0; j < 12; j++) {
+            var days = monthDays[j];
+            if (j == 1 && isLeapYear(i)) {
+                days++;
+            }
+            start += days % 7;
+            if (start == 7) {
+                if (i != 2000 || j != 11) {
+                    total++;
+                } 
+            }
+            if (start > 7) {
+                start %= 7;
+            }
+        }
+    }
+
+    console.log(total);
+}
+
+function isLeapYear(year) {
+    if (year % 100 == 0) {
+        return year % 400 == 0;
+    } else {
+        return year % 4 == 0;
+    }
+}
+
+/**
  * Factorial digit sum
  * Problem 20
  * 
@@ -841,13 +890,24 @@ function visitArray(unsettled, settled) {
 function p20() {
     var digitLut = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     var result = euler.factorial(100);
-    var start = "0";
-    var sum = 0;
-    for (var i = 0; i < result.length; i++) {
-        var digit = digitLut[result[i] - start];
+    var start = "0"; var sum = 0; for (var i = 0; i < result.length; i++) { var digit = digitLut[result[i] - start];
         sum += digit;
     }
     console.log(result + " with sum of the digits: " + sum);
+}
+
+/**
+ * Amicable numbers
+ * Problem 21
+ * 
+ * Let d(n) be defined as the sum of proper divisors of n (numbers less than n which divide evenly into n).
+ * If d(a) = b and d(b) = a, where a ¿ b, then a and b are an amicable pair and each of a and b are called amicable numbers.
+ * 
+ * For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110; therefore d(220) = 284. The proper divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
+ * 
+ * Evaluate the sum of all the amicable numbers under 10000.
+ **/
+function p21() {
 }
 
 /**
@@ -876,11 +936,11 @@ function p67() {
             settled[i][j] = parseInt(numbers[j]);
         }
     }
-    visitArray(unsettled, settled);
+    visitTriangleArray(unsettled, settled);
 }
 
 var start = new Date();
-p67();
+p19();
 var end = new Date();
 var elapsed = end - start;
 console.log("elapsed time: " + elapsed);
