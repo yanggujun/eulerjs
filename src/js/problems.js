@@ -908,6 +908,36 @@ function p20() {
  * Evaluate the sum of all the amicable numbers under 10000.
  **/
 function p21() {
+    var amicables = [];
+    var index = 0;
+    for (var i = 2; i < 10000; i++) {
+        if (!euler.isPrime(i) && !euler.isIn(i, amicables)) {
+            var sum1 = d(i);
+            var sum2 = d(sum1);
+            if (sum2 == i && sum1 != i) {
+                amicables[index++] = i;
+                amicables[index++] = sum1;
+            }
+        }
+    }
+    var sum = 0;
+    for (var i in amicables) {
+        sum += amicables[i];
+    }
+    console.log(amicables);
+    console.log(sum);
+}
+
+function d(n) {
+    var sum = 0;
+    var factors = euler.findFactorsOf(n);
+    for (var i = 0; i < factors.length; i++) {
+        if (factors[i] < n) {
+            sum += factors[i];
+        }
+    }
+
+    return sum;
 }
 
 /**
@@ -940,7 +970,7 @@ function p67() {
 }
 
 var start = new Date();
-p19();
+p21();
 var end = new Date();
 var elapsed = end - start;
 console.log("elapsed time: " + elapsed);
