@@ -941,6 +941,80 @@ function d(n) {
 }
 
 /**
+ * Names scores
+ * Problem 22
+ * 
+ * Using names.txt (right click and 'Save Link/Target As...'), a 46K text file containing over five-thousand first names, begin by sorting it into alphabetical order. Then working out the alphabetical value for each name, multiply this value by its alphabetical position in the list to obtain a name score.
+ * 
+ * For example, when the list is sorted into alphabetical order, COLIN, which is worth 3 + 15 + 12 + 9 + 14 = 53, is the 938th name in the list. So, COLIN would obtain a score of 938 × 53 = 49714.
+ * 
+ * What is the total of all the name scores in the file?
+ **/
+function p22() {
+    var lines = fs.readFileSync('names.txt').toString().split(",");
+    for (var i in lines) {
+        lines[i] = lines[i].substring(1, lines[i].length - 1);
+    }
+    lines.sort();
+    var sum = 0;
+    var alphabit = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for (var i  = 0; i < lines.length; i++) {
+        for (var j in lines[i]) {
+            var index = alphabit.indexOf(lines[i][j]);
+            index++;
+            var score = index * (i + 1);
+            sum += score;
+        }
+    }
+    console.log(sum);
+}
+
+/**
+ * Non-abundant sums
+ * Problem 23
+ * 
+ * A perfect number is a number for which the sum of its proper divisors is exactly equal to the number. For example, the sum of the proper divisors of 28 would be 1 + 2 + 4 + 7 + 14 = 28, which means that 28 is a perfect number.
+ * 
+ * A number n is called deficient if the sum of its proper divisors is less than n and it is called abundant if this sum exceeds n.
+ * 
+ * As 12 is the smallest abundant number, 1 + 2 + 3 + 4 + 6 = 16, the smallest number that can be written as the sum of two abundant numbers is 24. By mathematical analysis, it can be shown that all integers greater than 28123 can be written as the sum of two abundant numbers. However, this upper limit cannot be reduced any further by analysis even though it is known that the greatest number that cannot be expressed as the sum of two abundant numbers is less than this limit.
+ * 
+ * Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
+ **/
+function p23() {
+    var abundants = [];
+    var index = 0;
+    for (var i = 1; i <= 28123; i++) {
+        if (euler.isAbundant(i)) {
+            abundants[index++] = i;
+        }
+    }
+    var nonAbtSums = [];
+    var index = 0;
+    for (var i = 1; i <= 28123; i++) {
+        var isAbtSum = false;
+        for (var j in abundants) {
+            if (abundants[j] <= i / 2) {
+                if (euler.isAbundant(i - abundants[j])) {
+                    isAbtSum = true;
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+        if (!isAbtSum) {
+            nonAbtSums[index++] = i;
+        }
+    }
+
+    var total = nonAbtSums.reduce(function(a, b) {
+        return a + b;
+    });
+    console.log(total);
+}
+
+/**
  * By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is 23.
  * 
  * 3
@@ -970,7 +1044,7 @@ function p67() {
 }
 
 var start = new Date();
-p21();
+p23();
 var end = new Date();
 var elapsed = end - start;
 console.log("elapsed time: " + elapsed);

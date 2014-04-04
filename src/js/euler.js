@@ -340,3 +340,22 @@ function pow(n, exponent) {
     }
     return result;
 }
+
+/**
+ * Whether the number is abundant. An abundant number means sum of its proper divisors is larger than itself.
+ **/
+exports.isAbundant = isAbundant;
+function isAbundant(n) {
+    var sum = 0;
+    if (!isPrime(n)) {
+        var factors = findFactorsOf(n);
+        for (var i in factors) {
+            if (factors[i] < n) {
+                sum += factors[i];
+            }
+        }
+    }
+
+    return sum > n;
+
+}
