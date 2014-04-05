@@ -1015,6 +1015,73 @@ function p23() {
 }
 
 /**
+ * Lexicographic permutations
+ * Problem 24
+ * 
+ * A permutation is an ordered arrangement of objects. For example, 3124 is one possible permutation of the digits 1, 2, 3 and 4. If all of the permutations are listed numerically or alphabetically, we call it lexicographic order. The lexicographic permutations of 0, 1 and 2 are:
+ * 
+ * 012   021   102   120   201   210
+ * 
+ * What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
+ **/
+function p24() {
+    var digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var n = [];
+    var index = 0;
+    var counted = 0;
+    var remains = 1000000;
+    for (var i = 10; i > 0; i--) {
+        var total = parseInt(euler.factorial(i - 1));
+        var number = (remains % total == 0) ? ((remains / total) - 1) : (Math.floor(remains / total));
+        remains -= total * number;
+        n[index++] = digits[number];
+        digits.splice(digits.indexOf(digits[number]), 1);
+    }
+    console.log(n);
+}
+
+/**
+ * 1000-digit Fibonacci number
+ * Problem 25
+ * 
+ * The Fibonacci sequence is defined by the recurrence relation:
+ * 
+ *     Fn = Fn¿1 + Fn¿2, where F1 = 1 and F2 = 1.
+ * 
+ *     Hence the first 12 terms will be:
+ * 
+ *         F1 = 1
+ *         F2 = 1
+ *         F3 = 2
+ *         F4 = 3
+ *         F5 = 5
+ *         F6 = 8
+ *         F7 = 13
+ *         F8 = 21
+ *         F9 = 34
+ *         F10 = 55
+ *         F11 = 89
+ *         F12 = 144
+ *
+ * The 12th term, F12, is the first term to contain three digits.
+ *
+ * What is the first term in the Fibonacci sequence to contain 1000 digits?
+ **/
+function p25() {
+    var first = "1";
+    var second = "1";
+    var fiboNum = second; 
+    var index = 2;
+    while (fiboNum.length < 1000) {
+        fiboNum = euler.add([first, second]);
+        first = second;
+        second = fiboNum;
+        index++;
+    }
+    console.log(index);
+}
+
+/**
  * By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is 23.
  * 
  * 3
@@ -1044,7 +1111,7 @@ function p67() {
 }
 
 var start = new Date();
-p23();
+p25();
 var end = new Date();
 var elapsed = end - start;
 console.log("elapsed time: " + elapsed);
